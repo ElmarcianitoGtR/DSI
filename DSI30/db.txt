@@ -1,0 +1,165 @@
+
+CREATE TABLE propietarios (
+idPropietario INT PRIMARY KEY AUTO_INCREMENT,
+nombre VARCHAR(100) NOT NULL,
+rfc VARCHAR(13) NOT NULL,
+idDomicilio INT
+
+);
+
+
+
+CRAETE TABLE domicilios (
+idDomicilio INT PRIMARY KEY,
+colonia VARCHAR(40) NOT NULL,
+calle VARCHAR(40) NOT NULL,
+numeroInterior INT,
+numeroExterior INT,
+codigoPostal INT NOT NULL,
+ciudad VARCHAR(40) NOT NULL,
+estado VARCHAR(40) NOT NULL
+);
+
+
+
+CREATE TABLE conductores(
+idConductor INT PRIMARY KEY AUTO_INCREMENT,
+nombre VARCHAR(20) NOT NULL,
+idDomicilio INT NOT NULL
+);
+
+
+
+CREATE TABLE licencias(
+idLicencia INT PRIMARY KEY AUTO_INCREMENT,
+fechaExpedicion DATE NOT NULL,
+antiguedad VARCHAR(10) NOT NULL,
+tipo VARCHAR(20) NOT NULL,
+restricciones VARCHAR(50) NOT NULL,
+fechaVencimiento DATE NOT NULL,
+idConductores INT NOT NULL
+);
+
+
+CREATE TABLE multas(
+idMulta INT PRIMARY KEY AUTO_INCREMENT,
+fecha DATE NOT NULL,
+hora TIME NOT NULL,
+folio VARCHAR(20) NOT NULL,
+reporteSeccion VARCHAR(100) NOT NULL,
+idTarjetaC INT NOT NULL,
+idLicencia INT NOT NULL,
+idAgente INT NOT NULL,
+idPago INT NOT NULL
+);
+
+
+CREATE TABLE agentes(
+idAgente INT PRIMARY KEY AUTO_INCREMENT,
+nombre VARCHAR(30) NOT NULL,
+asignacion VARCHAR(30) NOT NULL
+);
+
+
+CREATE TABLE vehiculos(
+numSerie INT PRIMARY KEY,
+marca VARCHAR(20) NOT NULL,
+modelo VARCHAR(100) NOT NULL,
+placa INT NOT NULL,
+tipoCombustible VARCHAR(15)
+color VARCHAR(15),
+numMotor INT NOT NULL,
+puertas INT NOT NULL,
+cilindros INT NOT NULL
+);
+
+CREATE TABLE centroV(
+idCentroV INT PRIMARY KEY AUTO_INCREMENT,
+numero INT NOT NULL,
+nombre VARCHAR(150) NOT NULL,
+direccion VARCHAR(100) NOT NULL,
+numLineas INT,
+horario TIME NOT NULL
+);
+
+CREATE TABLE tarjetasC(
+idTarjetaC INT PRIMARY KEY AUTO_INCREMENT,
+vigencia DATE NOT NULL,
+folio VARCHAR(20) NOT NULL,
+uso VARCHAR(30) NOT NULL,
+rpa VARCHAR(20) NOT NULL,
+firmaAut VARCHAR(10) NOT NULL,
+fechaExp DATE NOT NULL,
+tipoServicio VARCHAR(15),
+holograma VARCHAR(30) NOT NULL,
+numSerie INT NOT NULL,
+idPropietario INT NOT NULL,
+idPago INT NOT NULL
+
+);
+
+CREATE TABLE tarjetasV(
+idTarjetaV INT PRIMARY KEY AUTO_INCREMENT,
+numLinea INT NOT NULL,
+vigencia DATE NOT NULL,
+fechaExp DATE NOT NULL,
+horaEntrada TIME NOT NULL,
+horaSalida TIME NOT NULL,
+semestre INT NOT NULL,
+metAnalisisV VARCHAR(100) NOT NULL,
+idCentroV INT  NOT NULL,
+idTarjetaC INT NOT NULL,
+idPagos INT  NOT NULL
+
+);
+
+
+CREATE TABLE pagos(
+idPago INT PRIMARY KEY AUTO_INCREMENT,
+nombre VARCHAR(20) NOT NULL,
+asignacion VARCHAR(50) NOT NULL
+);
+
+-- 1. Propietarios
+ALTER TABLE propietarios 
+ADD FOREIGN KEY (idDomicilio) REFERENCES domicilios(idDomicilio);
+
+-- 2. Tarjetas de Circulación (tarjetasC)
+ALTER TABLE tarjetasC 
+ADD FOREIGN KEY (idPropietario) REFERENCES propietarios(idPropietario);
+
+ALTER TABLE tarjetasC 
+ADD FOREIGN KEY (numSerie) REFERENCES vehiculos(numSerie);
+
+ALTER TABLE tarjetasC 
+ADD FOREIGN KEY (idPago) REFERENCES pagos(idPago);
+
+-- 3. Tarjetas de Verificación (tarjetasV)
+ALTER TABLE tarjetasV 
+ADD FOREIGN KEY (idPagos) REFERENCES pagos(idPago);
+
+ALTER TABLE tarjetasV 
+ADD FOREIGN KEY (idCentroV) REFERENCES centroV(idCentroV);
+
+ALTER TABLE tarjetasV 
+ADD FOREIGN KEY (idTarjetaC) REFERENCES tarjetasC(idTarjetaC);
+
+-- 4. Multas
+ALTER TABLE multas 
+ADD FOREIGN KEY (idPago) REFERENCES pagos(idPago);
+
+ALTER TABLE multas 
+ADD FOREIGN KEY (idAgente) REFERENCES agentes(idAgente);
+
+ALTER TABLE multas 
+ADD FOREIGN KEY (idLicencia) REFERENCES licencias(idLicencia);
+
+ALTER TABLE multas 
+ADD FOREIGN KEY (idTarjetaC) REFERENCES tarjetasC(idTarjetaC);
+
+-- 5. Licencias y Conductores
+ALTER TABLE licencias 
+ADD FOREIGN KEY (idConductores) REFERENCES conductores(idConductor);
+
+ALTER TABLE conductores 
+ADD FOREIGN KEY (idDomicilio) REFERENCES domicilios(idDomicilio);

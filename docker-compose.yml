@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  # Servidor de Base de Datos
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mi_base_de_datos
+    ports:
+      - "3306:3306"
+
+  # PHP con Apache
+  php:
+    build: .
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+
+  # phpMyAdmin
+  phpmyadmin:
+    image: phpmyadmin:latest
+    restart: always
+    ports:
+      - "8081:80"
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=db
+    depends_on:
+      - db
