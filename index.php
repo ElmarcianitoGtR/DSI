@@ -8,4 +8,3 @@
         header('Location: '.$uri.'/DSI30/');
         exit;
 ?>
-Something is wrong with the XAMPP installation :-(
