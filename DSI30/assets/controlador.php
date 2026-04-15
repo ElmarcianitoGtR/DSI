@@ -26,8 +26,28 @@ function ejecutar($sql, $params = []){
     if (!$con) return null;
 
     $resultado = mysqli_execute_query($con, $sql, $params);
-
+    registrar($sql,$params,$resultado);
     return $resultado;
+}
+
+function registrar ($sql,$params,$res){
+
+    $carpeta = __DIR__ . "/record/";
+    $archivo = $carpeta . "historial.csv";
+
+    if(!file_exists($carpeta)){
+        mkdir($carpeta, 0777, true);
+    }
+
+    $fecha = date("Y-m-d");
+    $hora = date("H:i:s");
+
+    $sql_limpio = str_replace(["\r", "\n"], " ", $sql);
+    $data = json_encode($params);
+    $datos = [$fecha, $hora, $sql_limpio, $data, $res];
+    $fp = fopen($archivo, 'a');
+    fputcsv($fp, $datos);
+    fclose($fp);
 }
 
 function procesar($sql, $params = []){
