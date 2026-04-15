@@ -13,7 +13,7 @@ $data = [$Nombre, $Asignacion];
 $registro = ejecutar($sql, $data);
 
 if ($registro) {
-    echo "¡Vehículo registrado con éxito!";
+    echo "¡Agente registrado con éxito!";
 } else {
-    echo "Error: No se pudo registrar el vehículo.";
+    echo "Error: No se pudo registrar el agente.";
 }

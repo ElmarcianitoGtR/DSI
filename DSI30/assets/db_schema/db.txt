@@ -10,7 +10,7 @@ idDomicilio INT
 
 
 CREATE TABLE domicilios (
-idDomicilio INT PRIMARY KEY,
+idDomicilio INT PRIMARY KEY AUTO_INCREMENT,
 colonia VARCHAR(40) NOT NULL,
 calle VARCHAR(40) NOT NULL,
 numeroInterior INT,

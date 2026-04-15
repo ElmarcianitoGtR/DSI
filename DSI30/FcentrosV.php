@@ -31,7 +31,7 @@
                     <i class="bi bi-building-check fs-1 text-primary me-3"></i>
                     <div>
                         <h1 class="h3 mb-0">Centros de Verificación</h1>
-                        <p class="text-muted small">Registro y actualización de unidades de inspección</p>
+                        <p class="text-muted small">Registro de centro de verificación</p>
                     </div>
                 </div>
 
@@ -43,7 +43,7 @@
                         </div>
 
                         <div class="col-md-6">
-                            <label for="Numero" class="form-label fw-bold text-secondary">Número Oficial</label>
+                            <label for="Numero" class="form-label fw-bold text-secondary">Número</label>
                             <input type="text" class="form-control" name="Numero" id="Numero" placeholder="Ej: CV-05">
                         </div>
 
