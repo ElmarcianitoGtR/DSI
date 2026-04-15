@@ -1,5 +1,5 @@
 <?php
-$Servidor = "127.0.0.1";
+$Servidor = "db";
 $Usuario = "root";
 $Pwd = "";
 $BaseDatos = "ControlVehicular2026";

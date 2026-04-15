@@ -1,54 +1,39 @@
 <?php
 
 function conectar(){
-    $host = "127.0.0.1";
+    $host = "db";
     $db   = "ControlVehicular2026";
     $user = "root";
-    $pass = "";
-    $charset = "utf8mb4";
-    $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
-    $options = [
-        PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        PDO::ATTR_EMULATE_PREPARES   => false,
-    ];
-    try {
-         $pdo = new PDO($dsn, $user, $pass, $options);
-         echo "¡Conexión exitosa a la base de datos!";
-         return $pdo;
-    } catch (\PDOException $e) {
-         echo "Error en la conexión: " . $e->getMessage();
-         return null;
+    $pass = "root";
+
+    $conn = mysqli_connect($host, $user, $pass, $db);
+
+    if (!$conn) {
+        echo "Error en la conexión: " . mysqli_connect_error();
+        return null;
     }
+    echo "¡Conexión exitosa a la base de datos!";
+    return $conn;
 } 
 
-function cerrar($pdo){
-    $pdo = null;
-}  
-
-
-function ejecutar($sql, $params = []){
-    $pdo = conectar();
-    if ($pdo) {
-        try {
-            $stmt = $pdo->prepare($sql);
-            $stmt->execute($params);
-
-            cerrar($pdo);
-            return $stmt;
-        } catch (PDOException $e) {
-            echo "Error al ejecutar la consulta: " . $e->getMessage();
-
-            cerrar($pdo);
-            return null;
-        }
+function cerrar($conn){
+    if ($conn) {
+        mysqli_close($conn);
     }
+}  
+function ejecutar($sql, $params = []){
+    $con = conectar();
+    if (!$con) return null;
 
-    cerrar($pdo);
-    return null;
+    $resultado = mysqli_execute_query($con, $sql, $params);
 
+    return $resultado;
 }
 
-function procesar(){
+function procesar($sql, $params = []){
+    $resultado = ejecutar($sql, $params);
+    
+    if (!$resultado || is_bool($resultado)) return [];
 
+    return mysqli_fetch_all($resultado, MYSQLI_ASSOC);
 }

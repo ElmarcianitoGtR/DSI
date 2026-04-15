@@ -2,7 +2,7 @@
 
 $servidor ="127.0.0.1";
 $usuario = "root";
-$pwd = "";
+$pwd = "root";
 $db="ControlVehicular2026";
 $Conn= mysqli_connect($servidor,$usuario,$pwd,$db);
 //paso 3

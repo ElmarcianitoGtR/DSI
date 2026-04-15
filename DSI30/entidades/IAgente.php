@@ -1,5 +1,5 @@
 <?php
-require_once '../assets/conn.php';
+require_once '../assets/controlador.php';
 
 $IdAgente = $_GET['idAgente'];
 $Nombre = $_GET['nombre'];
@@ -8,13 +8,12 @@ print('ID Agente ='.$IdAgente."<br>");
 print('Nombre ='.$Nombre."<br>");
 print('Asignación ='.$Asignacion."<br>");
 
+$sql = "INSERT INTO agentes (nombre, asignacion) VALUES (?, ?);";
+$data = [$Nombre, $Asignacion];
+$registro = ejecutar($sql, $data);
 
-try{
-
-    $sql = "INSERT INTO agentes (nombre, asignacion) VALUES (?, ?);";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$Nombre, $Asignacion]);
-    echo"Se agrego correctamente el agente";
-}catch(PDOException $e){
-    echo "Error al insertar: " . $e->getMessage();
+if ($registro) {
+    echo "¡Vehículo registrado con éxito!";
+} else {
+    echo "Error: No se pudo registrar el vehículo.";
 }
