@@ -1,1 +1,28 @@
 DSI30/assets/record/
+# Carpeta de datos de Docker
+.docker_data/
+
+# Basura de VS Code / Chrome / Electron
+/Cache*/
+/GPUCache/
+/Code Cache/
+/Local Storage/
+/User/
+/logs/
+/Crashpad/
+/Dictionaries/
+/blob_storage/
+/Cached*/
+/Dawn*/
+/DIPS*/
+/SharedStorage*/
+/Trust Tokens*/
+*.lock
+Cookies*
+Preferences
+Network Persistent State
+TransportSecurity
+machineid
+languagepacks.json
+Shared\ Dictionary/
+Trust\ Tokens*

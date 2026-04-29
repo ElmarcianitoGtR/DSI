@@ -14,8 +14,10 @@ services:
   # PHP con Apache
   php:
     build: .
+    environment:
+      - HOME=/tmp
     volumes:
-      - ./:/var/www/html
+      - ./src:/var/www/html
     ports:
       - "8080:80"
     depends_on:

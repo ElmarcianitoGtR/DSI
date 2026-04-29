@@ -1,0 +1,1 @@
+2026-04-15,20:41:13,"INSERT INTO agentes (nombre, asignacion) VALUES (?, ?);","[""salado"",""9""]",1
