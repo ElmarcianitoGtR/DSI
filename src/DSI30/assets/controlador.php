@@ -25,11 +25,20 @@ function ejecutar($sql, $params = []){
     $con = conectar();
     if (!$con) return null;
 
-    $resultado = mysqli_execute_query($con, $sql, $params);
-    registrar($sql,$params,$resultado);
+    if ($resultado && mysqli_num_rows($resultado) > 0) {
+    $datos = mysqli_fetch_assoc($resultado); // Esto extrae la fila como arreglo asociativo
+    
+    $valConductor = clean($datos['conductor_nombre']);
+    $valRFC       = clean($datos['propietario_rfc']);
+    // ... resto de tus variables ...
+} else {
+    // Si llegas aquí, es porque la consulta SQL no encontró nada
+    die("Error: No se encontró la multa solicitada con el ID: " . htmlspecialchars($idMultaDeseada));
+}
+    //registrar($sql,$params,$resultado);
     return $resultado;
 }
-
+/*
 function registrar ($sql,$params,$res){
 
     $carpeta = __DIR__ . "/record/";
@@ -49,7 +58,7 @@ function registrar ($sql,$params,$res){
     fputcsv($fp, $datos);
     fclose($fp);
 }
-
+*/
 function procesar($sql, $params = []){
     $resultado = ejecutar($sql, $params);
     

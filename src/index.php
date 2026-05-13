@@ -1,4 +1,4 @@
-<?php
+/*<?php
         if (!empty($_SERVER['HTTPS']) && ('on' == $_SERVER['HTTPS'])) {
                 $uri = 'https://';
         } else {
@@ -8,3 +8,4 @@
         header('Location: '.$uri.'/DSI30/');
         exit;
 ?>
+*/
