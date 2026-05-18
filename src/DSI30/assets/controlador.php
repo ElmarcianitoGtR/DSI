@@ -1,43 +1,33 @@
 <?php
 
 function conectar(){
-    $host = "db";
-    $db   = "ControlVehicular2026";
-    $user = "root";
-    $pass = "root";
+    $servidor="127.0.0.1";
+    $usuario="root";
+    $pwd="";
+    $db="ControlVehicular2026";
 
-    $conn = mysqli_connect($host, $user, $pass, $db);
+    $con =mysqli_connect($servidor, $usuario, $pwd, $db);
 
-    if (!$conn) {
+    if (!$con) {
         echo "Error en la conexión: " . mysqli_connect_error();
         return null;
     }
     echo "¡Conexión exitosa a la base de datos!";
-    return $conn;
+    return $con;
 } 
 
-function cerrar($conn){
-    if ($conn) {
-        mysqli_close($conn);
-    }
-}  
-function ejecutar($sql, $params = []){
-    $con = conectar();
-    if (!$con) return null;
 
-    if ($resultado && mysqli_num_rows($resultado) > 0) {
-    $datos = mysqli_fetch_assoc($resultado); // Esto extrae la fila como arreglo asociativo
-    
-    $valConductor = clean($datos['conductor_nombre']);
-    $valRFC       = clean($datos['propietario_rfc']);
-    // ... resto de tus variables ...
-} else {
-    // Si llegas aquí, es porque la consulta SQL no encontró nada
-    die("Error: No se encontró la multa solicitada con el ID: " . htmlspecialchars($idMultaDeseada));
-}
-    //registrar($sql,$params,$resultado);
+function ejecutar($con, $sql, $params = []){
+    $resultado=mysqli_query($con, $sql);
+
+    if(!$resultado){
+        echo "Error en la consulta: " . mysqli_error($con);
+        return null;
+    }
+
     return $resultado;
 }
+
 /*
 function registrar ($sql,$params,$res){
 
@@ -59,10 +49,11 @@ function registrar ($sql,$params,$res){
     fclose($fp);
 }
 */
-function procesar($sql, $params = []){
-    $resultado = ejecutar($sql, $params);
-    
-    if (!$resultado || is_bool($resultado)) return [];
 
-    return mysqli_fetch_all($resultado, MYSQLI_ASSOC);
+function cerrar($con){
+    if ($con) {
+        mysqli_close($con);
+    }
 }
+
+?>
